@@ -1,0 +1,46 @@
+<div id="calc">
+  <div id="toprow">
+    <form [formGroup]="inputStr">
+      <input type="text" formControlName="display" />
+      <button (click)="clearDisplay()">C</button>
+    </form>
+  </div>
+  <div class="operands row">
+    <div class="col-auto">
+      <button class="btn bg-amber-300" (click)="buttonDown($event.target)">
+        +
+      </button>
+      <button class="btn" (click)="buttonDown($event.target)">-</button>
+      <button class="btn" (click)="buttonDown($event.target)">÷</button>
+      <button class="btn" (click)="buttonDown($event.target)">*</button>
+    </div>
+  </div>
+  <div class="operands row">
+    <div class="col-auto">
+      <button class="btn" (click)="buttonDown($event.target)">1</button>
+      <button class="btn" (click)="buttonDown($event.target)">2</button>
+      <button class="btn" (click)="buttonDown($event.target)">3</button>
+    </div>
+  </div>
+  <div class="operands row">
+    <div class="col-auto">
+      <button class="btn" (click)="buttonDown($event.target)">4</button>
+      <button class="btn" (click)="buttonDown($event.target)">5</button>
+      <button class="btn" (click)="buttonDown($event.target)">6</button>
+    </div>
+  </div>
+  <div class="operands row">
+    <div class="col-auto">
+      <button class="btn" (click)="buttonDown($event.target)">7</button>
+      <button class="btn" (click)="buttonDown($event.target)">8</button>
+      <button class="btn" (click)="buttonDown($event.target)">9</button>
+    </div>
+  </div>
+  <div class="operands row">
+    <div class="col-auto">
+      <button class="btn" (click)="buttonDown($event.target)">.</button>
+      <button class="btn" (click)="buttonDown($event.target)">0</button>
+      <button class="btn" (click)="buttonDown($event.target)">=</button>
+    </div>
+  </div>
+</div>
