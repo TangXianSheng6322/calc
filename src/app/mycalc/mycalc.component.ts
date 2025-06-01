@@ -43,22 +43,29 @@ export class MycalcComponent implements OnInit {
   buttonDown(buttonElement: string): void {
     const displayControl = this.inputStr.get('display');
     const currentValue = displayControl?.value || '';
+    //AC
     if (buttonElement === 'AC') {
       displayControl?.setValue('');
       return;
     }
-    if (buttonElement === 'C' && currentValue > 0) {
+    //C
+    if (buttonElement === 'C' && currentValue.length > 0) {
       displayControl?.setValue(currentValue.slice(0, -1));
       return;
     }
-
+    //Same operators and replacement
+    const lastChar = currentValue.slice(-1);
     if (
       this.operatorsSigns.has(buttonElement) &&
-      this.operatorsSigns.has(currentValue.slice(-1))
+      this.operatorsSigns.has(lastChar)
     ) {
+      //Replaces element
+      displayControl?.setValue(currentValue.slice(0, -1) + buttonElement);
       return;
     }
+
     displayControl?.setValue(currentValue + buttonElement);
+    return;
   }
 
   getButtonClasses(i: number) {
