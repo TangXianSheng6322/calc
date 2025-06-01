@@ -12,9 +12,8 @@
     >
       <button
         *ngFor="let button of buttonValues; let i = index"
-        class="rounded-2xl cursor-pointer"
         [ngClass]="getButtonClasses(i)"
-        (click)="buttonDown(button.valueOf())"
+        (click)="buttonDown(button)"
       >
         {{ button }}
       </button>
