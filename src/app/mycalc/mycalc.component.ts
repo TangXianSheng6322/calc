@@ -10,17 +10,15 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 export class MycalcComponent implements OnInit {
   inputStr: any;
   ngOnInit(): void {
-    this.inputStr = new FormGroup({ display: new FormControl() });
+    this.inputStr = new FormGroup({ display: new FormControl('') });
   }
 
   buttonDown(buttonElement: any) {
-    let buttonText = buttonElement.textContent;
-    if (this.inputStr.controls.text.value != '') {
-      this.inputStr.controls.text.setValue(
-        this.inputStr.controls.text.value + buttonText
-      );
+    let buttonText = buttonElement;
+    if (this.inputStr.display != '') {
+      this.inputStr.display.setValue(this.inputStr.display.value + buttonText);
     } else {
-      this.inputStr.controls.text.setValue(buttonText);
+      this.inputStr.display.setValue(buttonText);
     }
   }
 

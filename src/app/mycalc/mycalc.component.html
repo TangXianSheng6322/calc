@@ -1,46 +1,8 @@
-<div id="calc">
-  <div id="toprow">
-    <form [formGroup]="inputStr">
-      <input type="text" formControlName="display" />
-      <button (click)="clearDisplay()">C</button>
-    </form>
-  </div>
-  <div class="operands row">
-    <div class="col-auto">
-      <button class="btn bg-amber-300" (click)="buttonDown($event.target)">
-        +
-      </button>
-      <button class="btn" (click)="buttonDown($event.target)">-</button>
-      <button class="btn" (click)="buttonDown($event.target)">÷</button>
-      <button class="btn" (click)="buttonDown($event.target)">*</button>
-    </div>
-  </div>
-  <div class="operands row">
-    <div class="col-auto">
-      <button class="btn" (click)="buttonDown($event.target)">1</button>
-      <button class="btn" (click)="buttonDown($event.target)">2</button>
-      <button class="btn" (click)="buttonDown($event.target)">3</button>
-    </div>
-  </div>
-  <div class="operands row">
-    <div class="col-auto">
-      <button class="btn" (click)="buttonDown($event.target)">4</button>
-      <button class="btn" (click)="buttonDown($event.target)">5</button>
-      <button class="btn" (click)="buttonDown($event.target)">6</button>
-    </div>
-  </div>
-  <div class="operands row">
-    <div class="col-auto">
-      <button class="btn" (click)="buttonDown($event.target)">7</button>
-      <button class="btn" (click)="buttonDown($event.target)">8</button>
-      <button class="btn" (click)="buttonDown($event.target)">9</button>
-    </div>
-  </div>
-  <div class="operands row">
-    <div class="col-auto">
-      <button class="btn" (click)="buttonDown($event.target)">.</button>
-      <button class="btn" (click)="buttonDown($event.target)">0</button>
-      <button class="btn" (click)="buttonDown($event.target)">=</button>
-    </div>
+<div class="w-full h-screen bg-amber-400 flex items-center justify-center">
+  <div
+    class="mycalc h-8/12 w-3/12 bg-pink-400 rounded-2xl flex justify-center flex-wrap"
+  >
+    <div class="view bg-gray-50 w-10/12 h-1/12 mt-6"></div>
+    <div class="buttonContainer bg-gray-50 w-10/12 h-9/12"></div>
   </div>
 </div>
