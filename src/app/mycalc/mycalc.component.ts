@@ -10,6 +10,9 @@ import { subscriptionLogsToBeFn } from 'rxjs/internal/testing/TestScheduler';
   styleUrl: './mycalc.component.css',
 })
 export class MycalcComponent implements OnInit {
+  operators = new Set([0, 1, 2, 3, 7, 11, 15]);
+  inputStr: any;
+
   buttonValues: string[] = [
     'AC',
     '÷',
@@ -31,7 +34,7 @@ export class MycalcComponent implements OnInit {
     '0',
     '00',
   ];
-  inputStr: any;
+
   ngOnInit(): void {
     this.inputStr = new FormGroup({ display: new FormControl('') });
   }
@@ -47,5 +50,12 @@ export class MycalcComponent implements OnInit {
 
   clearDisplay() {
     this.inputStr.display = '';
+  }
+
+  getButtonClasses(i: number) {
+    return [
+      this.operators.has(i) ? 'bg-red-500' : 'bg-green-500',
+      i === 15 ? 'row-span-2' : 'row-span-1',
+    ];
   }
 }

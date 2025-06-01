@@ -8,12 +8,13 @@
       </form>
     </div>
     <div
-      class="buttonContainer bg-gray-50 w-10/12 h-9/12 m-0 grid grid-cols-4 grid-rows-5"
+      class="buttonContainer bg-gray-50 w-10/12 h-9/12 m-0 grid grid-cols-4 grid-rows-5 gap-1"
     >
       <button
         *ngFor="let button of buttonValues; let i = index"
-        class="bg-sky-700"
-        [ngClass]="{ 'row-span-2': button === '=' }"
+        class="rounded-2xl cursor-pointer"
+        [ngClass]="getButtonClasses(i)"
+        (click)="buttonDown(button.valueOf())"
       >
         {{ button }}
       </button>
