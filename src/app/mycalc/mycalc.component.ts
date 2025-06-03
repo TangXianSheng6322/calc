@@ -11,7 +11,7 @@ import { subscriptionLogsToBeFn } from 'rxjs/internal/testing/TestScheduler';
 })
 export class MycalcComponent implements OnInit {
   operators = new Set([0, 1, 2, 3, 7, 11, 15]);
-  operatorsSigns = new Set(['+', '-', '*', '÷']);
+  operatorsSigns = new Set(['+', '-', '*', '÷', '.']);
   inputStr: any;
 
   buttonValues: string[] = [
@@ -49,8 +49,10 @@ export class MycalcComponent implements OnInit {
       return;
     }
     //C
-    if (buttonElement === 'C' && currentValue.length > 0) {
-      displayControl?.setValue(currentValue.slice(0, -1));
+    if (buttonElement === 'C') {
+      if (currentValue.length > 0) {
+        displayControl?.setValue(currentValue.slice(0, -1));
+      }
       return;
     }
     //Same operators and replacement
@@ -78,5 +80,18 @@ export class MycalcComponent implements OnInit {
     const base = 'rounded-2xl cursor-pointer';
 
     return `${base} ${operators} ${equalSign}`;
+  }
+
+  calcEval() {
+    const finalStr = this.inputStr.get('display').value;
+    const tokens = finalStr.match(/(\d+|\+|\-|\*|÷)/g);
+    while (tokens.length > 1) {
+      const firstEx = tokens.findIndexOf((x: string) => x === '*');
+      const firstNum = tokens.findIndex(firstEx - 1);
+      const secondNum = tokens.findIndex(firstEx + 1);
+      function evaluate() {
+        tokens[firstNum] * tokens[secondNum];
+      }
+    }
   }
 }
