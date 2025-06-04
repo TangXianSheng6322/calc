@@ -1,7 +1,6 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
-import { subscriptionLogsToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 @Component({
   selector: 'app-mycalc',
@@ -73,6 +72,12 @@ export class MycalcComponent implements OnInit {
       return;
     }
 
+    if (buttonElement === '.') {
+      const parts = currentValue.split(/[\+\-\*÷]/);
+      const lastNum = parts[parts.length - 1];
+      if (lastNum.includes('.')) return;
+    }
+
     displayControl?.setValue(currentValue + buttonElement);
     return;
   }
@@ -89,13 +94,17 @@ export class MycalcComponent implements OnInit {
     return `${base} ${operators} ${equalSign}`;
   }
 
-  evaluateOps(tokens: string[], ops: string[]): string[] {
+  evaluateOps(tokens: string[], ops: string[]): string[] | null {
     while (ops.some((op) => tokens.includes(op))) {
       const op = ops.find((o) => tokens.includes(o));
       const i = tokens.findIndex((t) => t === op);
       const a = Number(tokens[i - 1]);
       const b = Number(tokens[i + 1]);
       let result;
+      if (op === '÷' && b === 0) {
+        this.inputStr.get('display').setValue('Error: ÷0');
+        return null;
+      }
       switch (op) {
         case '*':
           result = a * b;
@@ -103,7 +112,7 @@ export class MycalcComponent implements OnInit {
         case '÷':
           result = a / b;
           break;
-        case ' +':
+        case '+':
           result = a + b;
           break;
         case '-':
@@ -122,8 +131,10 @@ export class MycalcComponent implements OnInit {
     const ops1 = ['*', '÷'];
     const ops2 = ['+', '-'];
 
-    this.evaluateOps(tokens, ops1);
-    this.evaluateOps(tokens, ops2);
+    const res1 = this.evaluateOps(tokens, ops1);
+    if (!res1) return;
+    const res2 = this.evaluateOps(tokens, ops2);
+    if (!res2) return;
     // for (const op of ops1) {
     //   while (tokens.includes(op)) {
     //     const firstOp = tokens.findIndex((x: string) => x === op);
