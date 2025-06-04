@@ -66,6 +66,13 @@ export class MycalcComponent implements OnInit {
       return;
     }
 
+    //Evaluates
+
+    if (buttonElement === '=') {
+      this.calcEval();
+      return;
+    }
+
     displayControl?.setValue(currentValue + buttonElement);
     return;
   }
@@ -85,13 +92,29 @@ export class MycalcComponent implements OnInit {
   calcEval() {
     const finalStr = this.inputStr.get('display').value;
     const tokens = finalStr.match(/(\d+|\+|\-|\*|÷)/g);
-    while (tokens.length > 1) {
-      const firstEx = tokens.findIndexOf((x: string) => x === '*');
-      const firstNum = tokens.findIndex(firstEx - 1);
-      const secondNum = tokens.findIndex(firstEx + 1);
-      function evaluate() {
-        tokens[firstNum] * tokens[secondNum];
+    if (!tokens) {
+      return;
+    }
+    const ops1 = ['*', '÷'];
+    const ops2 = ['+', '-'];
+    for (const op of ops1) {
+      while (tokens.includes(op)) {
+        const firstOp = tokens.findIndex((x: string) => x === op);
+        const firstNum = Number(tokens[firstOp - 1]);
+        const secondNum = Number(tokens[firstOp + 1]);
+        const result = op === '*' ? firstNum * secondNum : firstNum / secondNum;
+        tokens.splice(firstOp - 1, 3, result.toString());
       }
     }
+    for (const op of ops2) {
+      while (tokens.includes(op)) {
+        const firstOp = tokens.findIndex((x: string) => x === op);
+        const firstNum = Number(tokens[firstOp - 1]);
+        const secondNum = Number(tokens[firstOp + 1]);
+        const result = op === '+' ? firstNum + secondNum : firstNum - secondNum;
+        tokens.splice(firstOp - 1, 3, result.toString());
+      }
+    }
+    this.inputStr.get('display').setValue(tokens[0]);
   }
 }
