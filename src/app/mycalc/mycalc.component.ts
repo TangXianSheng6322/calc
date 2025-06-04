@@ -89,32 +89,59 @@ export class MycalcComponent implements OnInit {
     return `${base} ${operators} ${equalSign}`;
   }
 
-  calcEval() {
-    const finalStr = this.inputStr.get('display').value;
-    const tokens = finalStr.match(/(\d+|\+|\-|\*|÷)/g);
-    if (!tokens) {
-      return;
+  evaluateOps(tokens: string[], ops: string[]): string[] {
+    while (ops.some((op) => tokens.includes(op))) {
+      const op = ops.find((o) => tokens.includes(o));
+      const i = tokens.findIndex((t) => t === op);
+      const a = Number(tokens[i - 1]);
+      const b = Number(tokens[i + 1]);
+      let result;
+      switch (op) {
+        case '*':
+          result = a * b;
+          break;
+        case '÷':
+          result = a / b;
+          break;
+        case ' +':
+          result = a + b;
+          break;
+        case '-':
+          result = a - b;
+      }
+      tokens.splice(i - 1, 3, result!.toString());
     }
+    return tokens;
+  }
+
+  calcEval() {
+    const finalStr = this.inputStr.get('display').value.replace(/\s/g, '');
+    const tokens = finalStr.match(/(\d+(\.\d+)?|\+|\-|\*|÷)/g);
+    if (!tokens) return;
+
     const ops1 = ['*', '÷'];
     const ops2 = ['+', '-'];
-    for (const op of ops1) {
-      while (tokens.includes(op)) {
-        const firstOp = tokens.findIndex((x: string) => x === op);
-        const firstNum = Number(tokens[firstOp - 1]);
-        const secondNum = Number(tokens[firstOp + 1]);
-        const result = op === '*' ? firstNum * secondNum : firstNum / secondNum;
-        tokens.splice(firstOp - 1, 3, result.toString());
-      }
-    }
-    for (const op of ops2) {
-      while (tokens.includes(op)) {
-        const firstOp = tokens.findIndex((x: string) => x === op);
-        const firstNum = Number(tokens[firstOp - 1]);
-        const secondNum = Number(tokens[firstOp + 1]);
-        const result = op === '+' ? firstNum + secondNum : firstNum - secondNum;
-        tokens.splice(firstOp - 1, 3, result.toString());
-      }
-    }
+
+    this.evaluateOps(tokens, ops1);
+    this.evaluateOps(tokens, ops2);
+    // for (const op of ops1) {
+    //   while (tokens.includes(op)) {
+    //     const firstOp = tokens.findIndex((x: string) => x === op);
+    //     const firstNum = Number(tokens[firstOp - 1]);
+    //     const secondNum = Number(tokens[firstOp + 1]);
+    //     const result = op === '*' ? firstNum * secondNum : firstNum / secondNum;
+    //     tokens.splice(firstOp - 1, 3, result.toString());
+    //   }
+    // }
+    // for (const op of ops2) {
+    //   while (tokens.includes(op)) {
+    //     const firstOp = tokens.findIndex((x: string) => x === op);
+    //     const firstNum = Number(tokens[firstOp - 1]);
+    //     const secondNum = Number(tokens[firstOp + 1]);
+    //     const result = op === '+' ? firstNum + secondNum : firstNum - secondNum;
+    //     tokens.splice(firstOp - 1, 3, result.toString());
+    //   }
+    // }
     this.inputStr.get('display').setValue(tokens[0]);
   }
 }
