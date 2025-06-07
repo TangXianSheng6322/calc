@@ -42,6 +42,8 @@ export class MycalcComponent implements OnInit {
   buttonDown(buttonElement: string): void {
     const displayControl = this.inputStr.get('display');
     const currentValue = displayControl?.value || '';
+
+    if (currentValue === '' && this.operatorsSigns.has(buttonElement)) return;
     //AC
     if (buttonElement === 'AC') {
       displayControl?.setValue('');
@@ -103,7 +105,7 @@ export class MycalcComponent implements OnInit {
     const equalClass = 'row-span-2 bg-red-500 hover:bg-red-300 min-w-0 min-h-0';
     const numberClass = 'bg-green-500 hover:bg-green-300';
     const operatorClass = 'bg-red-500 hover:bg-red-300 red-btn ';
-    const base = 'rounded-2xl cursor-pointer';
+    const base = 'rounded-2xl cursor-pointer text-3xl';
 
     let specificClass = '';
 
