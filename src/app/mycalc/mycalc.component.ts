@@ -9,7 +9,7 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
   styleUrl: './mycalc.component.css',
 })
 export class MycalcComponent implements OnInit {
-  operators = new Set([0, 1, 2, 3, 7, 11, 15]);
+  operators = new Set([0, 1, 2, 3, 7, 11]);
   operatorsSigns = new Set(['+', '-', '*', '÷', '.']);
   inputStr: any;
 
@@ -82,16 +82,40 @@ export class MycalcComponent implements OnInit {
     return;
   }
 
+  // getButtonClasses(i: number) {
+  //   // return [
+  //   //   this.operators.has(i) ? 'bg-red-500' : 'bg-green-500',
+  //   //   i === 15 ? 'row-span-2' : 'row-span-1',
+  //   // ];
+  //   const operators = this.operators.has(i)
+  //     ? 'bg-red-500 hover:bg-red-300 red-btn '
+  //     : i === 15
+  //     ? 'row-span-2 bg-red-500 hover:bg-red-300 '
+  //     : 'bg-green-500 hover:bg-green-300 star ';
+  //   // const equalSign =
+  //   //   i === 15 ? 'row-span-2 bg-red-500 hover:bg-red-300' : 'row-span-1';
+  //   const base = 'rounded-2xl cursor-pointer ';
+
+  //   return ` ${base} ${operators} `;
+  // }
+
   getButtonClasses(i: number) {
-    // return [
-    //   this.operators.has(i) ? 'bg-red-500' : 'bg-green-500',
-    //   i === 15 ? 'row-span-2' : 'row-span-1',
-    // ];
-    const operators = this.operators.has(i) ? 'bg-red-500' : 'bg-green-500';
-    const equalSign = i === 15 ? 'row-span-2' : 'row-span-1';
+    const equalClass = 'row-span-2 bg-red-500 hover:bg-red-300 min-w-0 min-h-0';
+    const numberClass = 'bg-green-500 hover:bg-green-300 star ';
+    const operatorClass = 'bg-red-500 hover:bg-red-300 red-btn ';
     const base = 'rounded-2xl cursor-pointer';
 
-    return `${base} ${operators} ${equalSign}`;
+    let specificClass = '';
+
+    if (this.operators.has(i)) {
+      specificClass = operatorClass;
+    } else if (i === 15) {
+      specificClass = equalClass;
+    } else {
+      specificClass = numberClass;
+    }
+
+    return ` ${base} ${specificClass} `;
   }
 
   evaluateOps(tokens: string[], ops: string[]): string[] | null {
@@ -154,5 +178,17 @@ export class MycalcComponent implements OnInit {
     //   }
     // }
     this.inputStr.get('display').setValue(tokens[0]);
+  }
+  bounce(event: MouseEvent) {
+    const btn = event.target as HTMLElement;
+    btn.classList.add('bouncy');
+    //remove class
+    btn.addEventListener(
+      'animationend',
+      () => {
+        btn.classList.remove('bouncy');
+      },
+      { once: true }
+    );
   }
 }

@@ -2,18 +2,23 @@
   <div
     class="mycalc h-8/12 w-3/12 bg-pink-400 rounded-2xl flex justify-center flex-wrap"
   >
-    <div class="view bg-gray-50 w-10/12 h-16 mt-8 mb-0">
+    <div class="view bg-pink-400 w-10/12 h-16 mt-8 mb-0">
       <form [formGroup]="inputStr">
-        <input type="text" formControlName="display" />
+        <input
+          class="text-4xl"
+          type="text"
+          formControlName="display"
+          readonly
+        />
       </form>
     </div>
     <div
-      class="buttonContainer bg-gray-50 w-10/12 h-9/12 m-0 grid grid-cols-4 grid-rows-5 gap-1"
+      class="buttonContainer bg-pink-400 w-11/12 h-9/12 m-0 grid grid-cols-4 auto-rows-fr gap-2"
     >
       <button
         *ngFor="let button of buttonValues; let i = index"
         [ngClass]="getButtonClasses(i)"
-        (click)="buttonDown(button)"
+        (click)="buttonDown(button); bounce($event)"
       >
         {{ button }}
       </button>
