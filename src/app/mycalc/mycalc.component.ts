@@ -101,7 +101,7 @@ export class MycalcComponent implements OnInit {
 
   getButtonClasses(i: number) {
     const equalClass = 'row-span-2 bg-red-500 hover:bg-red-300 min-w-0 min-h-0';
-    const numberClass = 'bg-green-500 hover:bg-green-300 star ';
+    const numberClass = 'bg-green-500 hover:bg-green-300';
     const operatorClass = 'bg-red-500 hover:bg-red-300 red-btn ';
     const base = 'rounded-2xl cursor-pointer';
 
@@ -181,14 +181,26 @@ export class MycalcComponent implements OnInit {
   }
   bounce(event: MouseEvent) {
     const btn = event.target as HTMLElement;
-    btn.classList.add('bouncy');
-    //remove class
-    btn.addEventListener(
-      'animationend',
-      () => {
-        btn.classList.remove('bouncy');
-      },
-      { once: true }
-    );
+    if (btn.innerText != '=') {
+      btn.classList.add('bouncy', 'star');
+      //remove class
+      btn.addEventListener(
+        'animationend',
+        () => {
+          btn.classList.remove('bouncy', 'star');
+        },
+        { once: true }
+      );
+    } else {
+      btn.classList.add('bouncy');
+      //remove class
+      btn.addEventListener(
+        'animationend',
+        () => {
+          btn.classList.remove('bouncy');
+        },
+        { once: true }
+      );
+    }
   }
 }
